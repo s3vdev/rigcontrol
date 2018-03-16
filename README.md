@@ -51,7 +51,7 @@ Initialize a manually background process (after the first start, your cronjob wi
 
 
 ##
-#### Setup yours vars in rigcheck.config ####
+#### Setup your vars in rigcheck.config ####
 
 #### TELEGRAM ####
 1. Open your Telegram App
