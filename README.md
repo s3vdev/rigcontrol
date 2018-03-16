@@ -61,7 +61,7 @@ Initialize a manually background process (after the first start, your cronjob wi
 5. Choose a unique username for your bot (must ends with â€œbotâ€)
 6. copy your TOKEN e.g. 4334584910:AAEPmjlh84N62Lv3jGWEgOftlxxAfMhB1gs
 7. Start a conversation with your bot: GLOBAL SEARCH -> MY_BOT_NAME -> START
-8. To get the chat ID, open the following URL in your web-browser: https://api.telegram.org/bot[TOKEN]/getUpdates
+8. Send "hello" to your bot. To get the chat ID, open the following URL in your web-browser: https://api.telegram.org/bot[TOKEN]/getUpdates
 9. copy your chat id in var CHAT_ID and your token to TOKEN below
 
 ``` TOKEN="xyz" ```
