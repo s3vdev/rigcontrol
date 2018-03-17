@@ -73,7 +73,7 @@ then
         echo "${GREEN}It's running...${NC}";
         exit 0
 else
-        echo "${RED}Rigcontrol was not running...  Restarted.${NC}";
+        echo "${RED}Rigcontrol was not running...${NC} ${GREEN}Restarted.${NC}";
         screen -dmS rigcontrol bash /home/ethos/rigcontrol.sh 2>&1
         exit 0
 fi

@@ -74,50 +74,7 @@ NC="$(tput sgr0)" # No Color
 # Telegram API URL
 telegramURL="https://api.telegram.org/bot$TOKEN/getUpdates";
 
-# Get Hostname
-RIGHOSTNAME="$(cat /etc/hostname)";
 
-# Get worker name for Pushover service
-worker="$(/opt/ethos/sbin/ethos-readconf worker)";
-
-# Get human uptime
-human_uptime="$(/opt/ethos/bin/human_uptime)";
-
-# Get current mining client,
-miner="$(/opt/ethos/sbin/ethos-readconf miner)";
-
-# Get current mining client,
-miner="$(/opt/ethos/sbin/ethos-readconf miner)";
-
-# Miner version
-miner_version="$(cat /var/run/ethos/miner.versions | grep ${miner} | cut -d" " -f2 | head -1)";
-
-# Stratum status
-stratum_check="$(/opt/ethos/sbin/ethos-readconf stratumenabled)";
-
-# Miner Hashes
-miner_hashes="$(tail -10 /var/run/ethos/miner_hashes.file | sort -V | tail -1)";
-
-# Get current total hashrate (as integer)
-hashRate="$(tail -10 /var/run/ethos/miner_hashes.file | sort -V | tail -1 | tr ' ' '\n' | awk '{sum +=$1} END {print sum}')";
-
-# Get all availible GPUs
-gpus="$(cat /var/run/ethos/gpucount.file)";
-
-# Get driver
-driver="$(/opt/ethos/sbin/ethos-readconf driver)";
-
-# Add watts check (best way to detect crash for Nvidia cards) (Thanks to Min Min)
-watts_raw="$(/opt/ethos/bin/stats | grep watts | cut -d' ' -f2- | sed -e 's/^[ \t]*//')";
-
-# Get stats panel
-STATSPANEL="$(cat /var/run/ethos/url.file)";
-
-# Get current fan speeds
-fanrpm="$(/opt/ethos/sbin/ethos-readdata fanrpm | xargs | tr -s ' ')";
-
-#Get real lokal IP
-ip="$(ifconfig | grep -A 1 'eth0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)"
 
 status () {
    result="$(curl -s ${telegramURL} | python -c 'import sys, json; print json.load(sys.stdin)["'${1}'"]')";
@@ -179,10 +136,41 @@ apiWatch () {
     if [ "$(status "ok")" = "True" ];
     then
 
-
         if [ "${timestamp_5}" -lt "${telegram_date}" ];
-        #if [ $timestamp_5 \< $telegram_date ];
         then
+
+            # Get Hostname
+            RIGHOSTNAME="$(cat /etc/hostname)";
+            # Get worker name for Pushover service
+            worker="$(/opt/ethos/sbin/ethos-readconf worker)";
+            # Get human uptime
+            human_uptime="$(/opt/ethos/bin/human_uptime)";
+            # Get current mining client,
+            miner="$(/opt/ethos/sbin/ethos-readconf miner)";
+            # Get current mining client,
+            miner="$(/opt/ethos/sbin/ethos-readconf miner)";
+            # Miner version
+            miner_version="$(cat /var/run/ethos/miner.versions | grep ${miner} | cut -d" " -f2 | head -1)";
+            # Stratum status
+            stratum_check="$(/opt/ethos/sbin/ethos-readconf stratumenabled)";
+            # Miner Hashes
+            miner_hashes="$(tail -10 /var/run/ethos/miner_hashes.file | sort -V | tail -1)";
+            # Get current total hashrate (as integer)
+            hashRate="$(tail -10 /var/run/ethos/miner_hashes.file | sort -V | tail -1 | tr ' ' '\n' | awk '{sum +=$1} END {print sum}')";
+            # Get all availible GPUs
+            gpus="$(cat /var/run/ethos/gpucount.file)";
+            # Get driver
+            driver="$(/opt/ethos/sbin/ethos-readconf driver)";
+            # Add watts check (best way to detect crash for Nvidia cards) (Thanks to Min Min)
+            watts_raw="$(/opt/ethos/bin/stats | grep watts | cut -d' ' -f2- | sed -e 's/^[ \t]*//')";
+            # Get stats panel
+            STATSPANEL="$(cat /var/run/ethos/url.file)";
+            # Get current fan speeds
+            fanrpm="$(/opt/ethos/sbin/ethos-readdata fanrpm | xargs | tr -s ' ')";
+            #Get real lokal IP
+            ip="$(ifconfig | grep -A 1 'eth0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)";
+
+
 
             echo "Status: ${GREEN}Ok${NC} ${msg}";
 
@@ -190,8 +178,6 @@ apiWatch () {
             split_msg=$(echo $msg | awk -F" " '{print $1,$2}');
             set -- $split_msg;
             # $1 eg. /uptime -- $2 eg. rig2;
-
-
 
             # Get all infos about rig
             if [[ $1 = "/info" && $2 = "${worker}" || $2 = "${RIGHOSTNAME}" ]];
