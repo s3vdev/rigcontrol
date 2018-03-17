@@ -239,6 +239,12 @@ EOT
             echo "";
             echo "${GREEN}Installation of rigcontrol completed! Enjoy :-)${NC}";
 
+            sleep 0.3
+
+            echo "";
+            echo "Starting backgroud process...${NC}";
+            bash rigstatuscontrol.sh
+
         fi
 
         #echo "Telegram CHAT_ID is: $chat_id and your TOKEN is: $token";
