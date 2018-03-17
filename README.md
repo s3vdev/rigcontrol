@@ -1,7 +1,8 @@
 # rigCONTROL v.1.0.O (March 2018) based on ethOS 1.3.x by Sven Mielke #
   
 If you wish that you can control your ethOS Mining Rig than download rigstatuscontrol.sh and rigcontrol.sh to your folder /home/ethOS to manage your rig via Telegram Messenger.
-Video: https://vimeo.com/260455169
+
+See it in action: https://vimeo.com/260455169
 
 
 ![Showcase](https://i.imgur.com/GESZMmV.jpg)
@@ -19,6 +20,8 @@ Simple download only install.sh to your folder /home/ethos and set chmod via:
 Run install.sh via the following command:
 
 ``` bash install.sh ```
+
+Install Video: https://vimeo.com/260577442
 
 Finish :-)
 
