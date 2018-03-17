@@ -70,9 +70,9 @@
 . /home/ethos/rigcheck_config.sh
 
 # Coloring consolen output
-RED="$(tput setaf 1)"
-GREEN="$(tput setaf 2)"
-NC="$(tput sgr0)" # No Color
+RED="$(tput setaf 1)";
+GREEN="$(tput setaf 2)";
+NC="$(tput sgr0)"; # No Color
 
 # Telegram API URL
 telegramURL="https://api.telegram.org/bot$TOKEN/getUpdates";
@@ -117,16 +117,13 @@ notify () {
 
 
 timer () {
-    while sleep 5; do apiWatch; done
+    while sleep 5; do apiWatch "$1"; done
 }
 
 apiWatch () {
 
-    # Get current local timestamp
-    #timestamp=$(date +%s);
-
-    # Get current local timestamp + 5 seconds
-    timestamp_5=$(date --date='-7 seconds' +%s);
+    # Get update_id_netx from timer function...
+    update_id_next="$($1)";
 
     ##
     # Info: First get CURRENT update_id eg. => 521357970 on NEXT api call use => 521357971 on next => 521357972...
@@ -140,8 +137,11 @@ apiWatch () {
     fi
 
 
-    #update_id_next=$(( $update_id + 1 ));
-    #echo ${update_id} ${update_id_next};
+    # Get current local timestamp
+    #timestamp=$(date +%s);
+
+    # Get current local timestamp + 5 seconds
+    timestamp_5=$(date --date='-7 seconds' +%s);
 
     # Waiting for next user input...
     echo "${update_id} - ${GREEN}Waiting 5 seconds for next user input...${NC}";
@@ -268,6 +268,13 @@ apiWatch () {
                     notify "Rig ${worker} (${RIGHOSTNAME}) cleared all overheats and throttles and re-applied overclocks, set autoreboot counter back to 0.";
                     #exit 1
                 fi
+
+
+                # Run timer function
+                update_id_next=$(( $update_id + 1 ));
+                timer "${update_id_next}";
+
+
             fi
 
         else
@@ -285,8 +292,8 @@ apiWatch () {
     fi
 
     # Run timer function
-    timer
+    timer;
 }
 
 # First run...
-apiWatch
+apiWatch;
