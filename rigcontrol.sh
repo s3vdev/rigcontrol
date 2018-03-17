@@ -45,7 +45,7 @@
 # /reboot <rigname> OR <workername>
 # /updateminers <rigname> OR <workername>
 # /restartproxy <rigname> OR <workername>
-# /apply-remote-changes <rigname> OR <workername>
+# /apply_remote_changes <rigname> OR <workername>
 # /clearthermals <rigname> OR <workername>
 #
 # Finished!
@@ -277,7 +277,7 @@ apiWatch () {
 
                 ##
                 # Apple remote changes
-                if [[ $1 = "/apply-remote-changes" && $2 = "${worker}" || $1 = "/apply-remote-changes" && $2 = "${RIGHOSTNAME}" ]];
+                if [[ $1 = "/apply_remote_changes" && $2 = "${worker}" || $1 = "/apply_remote_changes" && $2 = "${RIGHOSTNAME}" ]];
                 then
                     /opt/ethos/bin/putconf && /opt/ethos/bin/minestop && ethos-overclock
                     notify "Rig ${worker} (${RIGHOSTNAME}) remote and overclocking settings have been saved.";
