@@ -43,10 +43,10 @@
 # /info <rigname> OR <workername>
 # /minestop <rigname> OR <workername>
 # /reboot <rigname> OR <workername>
-# /update-miners <rigname> OR <workername>
-# /restart-proxy <rigname> OR <workername>
+# /updateminers <rigname> OR <workername>
+# /restartproxy <rigname> OR <workername>
 # /apply-remote-changes <rigname> OR <workername>
-# /clear-thermals <rigname> OR <workername>
+# /clearthermals <rigname> OR <workername>
 #
 # Finished!
 #
@@ -206,15 +206,16 @@ apiWatch () {
             fi
 
             # Update all miners on rig
-            if [[ $1 = "/update-miners" && $2 = "${worker}" || $1 = "/update-miners" && $2 = "${RIGHOSTNAME}" ]];
+            if [[ $1 = "/updateminers" && $2 = "${worker}" || $1 = "/updateminers" && $2 = "${RIGHOSTNAME}" ]];
             then
-                sudo update-miners
                 notify "Rig ${worker} (${RIGHOSTNAME}) is updateing all miner programs to latest versions.";
+                sudo update-miners
+                notify "Rig ${worker} (${RIGHOSTNAME}) miner update completed.";
                 #exit 1
             fi
 
             # Restart proxy
-            if [[ $1 = "/restart-proxy" && $2 = "${worker}" || $1 = "/restart-proxy" && $2 = "${RIGHOSTNAME}" ]];
+            if [[ $1 = "/restartproxy" && $2 = "${worker}" || $1 = "/restartproxy" && $2 = "${RIGHOSTNAME}" ]];
             then
                 restart-proxy
                 notify "Rig ${worker} (${RIGHOSTNAME}) local stratum proxy restarted.";
@@ -230,7 +231,7 @@ apiWatch () {
             fi
 
             # Reset thermal-related throttling back to normal
-            if [[ $1 = "/clear-thermals" && $2 = "${worker}" || $1 = "/clear-thermals" && $2 = "${RIGHOSTNAME}" ]];
+            if [[ $1 = "/clearthermals" && $2 = "${worker}" || $1 = "/clearthermals" && $2 = "${RIGHOSTNAME}" ]];
             then
                 /opt/ethos/bin/clear-thermals
                 notify "Rig ${worker} (${RIGHOSTNAME}) cleared all overheats and throttles and re-applied overclocks, set autoreboot counter back to 0.";
