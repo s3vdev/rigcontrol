@@ -77,10 +77,3 @@ USER_KEY="";
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/ethos/bin:/opt/ethos/sbin
 
 ### END EDIT ###
-
-# Check if some vars was set
-if [[ -z "${MIN_HASH}" && -z "${LOW_WATT}" && -z "${TOKEN}" && -z "${CHAT_ID}" ]];
-then
-    echo "${RED}Please setup your vars in /home/ethos/rigcheck_config.sh!${NC}"
-    exit 1
-fi
