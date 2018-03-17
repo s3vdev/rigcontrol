@@ -128,10 +128,10 @@ apiWatch () {
     # Get current local timestamp + 5 seconds
     timestamp_5=$(date --date='-7 seconds' +%s);
 
-   # update_id is limited 0 - 100 (so get always the last id - https://stackoverflow.com/questions/34296374/telegram-bot-api-limit-of-incoming-updates#34299503)
-   # update_id="$( msg "100" "-1" "update_id" )";
-
+    ##
     # Info: First get CURRENT update_id eg. => 521357970 on NEXT api call use => 521357971 on next => 521357972...
+    # https://stackoverflow.com/questions/34296374/telegram-bot-api-limit-of-incoming-updates#34299503
+    #
     if [ -z "${update_id_next}" ];
     then
         update_id="$( msg "?offset=100" '["result"][-1]["update_id"]' )";
@@ -139,9 +139,11 @@ apiWatch () {
         update_id="$( msg "?offset=${update_id_next}" '["result"][-1]["update_id"]' )";
     fi
 
+
     #update_id_next=$(( $update_id + 1 ));
     #echo ${update_id} ${update_id_next};
 
+    # Waiting for next user input...
     echo "${update_id} - ${GREEN}Waiting 5 seconds for next user input...${NC}";
 
     # Get update_id
@@ -200,11 +202,16 @@ apiWatch () {
                 ip="$(ifconfig | grep -A 1 'eth0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)";
 
 
-
                 # Split commands
                 split_msg=$(echo $msg | awk -F" " '{print $1,$2}');
                 set -- $split_msg;
                 # $1 eg. /uptime -- $2 eg. rig2;
+
+
+
+                ##
+                # Check user command inputs...
+                ##
 
                 # Get all infos about rig
                 if [[ $1 = "/info" && $2 = "${worker}" || $1 = "/info" && $2 = "${RIGHOSTNAME}" ]];
