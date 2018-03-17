@@ -67,7 +67,11 @@ then
         # Get the pids of rigcontrol
         pid="$(pgrep -f rigcontrol | xargs)";
 
-        echo "${GREEN}It's running under PID ${pid}...${NC}";
+        ##
+        # Kill all rigcontrol pids
+        # ps aux | grep -i rigcontrol | awk {'print $2'} | xargs kill -9
+
+        echo "${GREEN}It's running under PID${NC} ${pid}";
         exit 0
 else
         echo "${RED}Rigcontrol was not running...${NC} ${GREEN}Restarted.${NC}";
