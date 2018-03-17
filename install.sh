@@ -135,6 +135,7 @@ select yn in "Yes" "No"; do
             echo "Creating cronjob for rigstatuscontrol.sh";
             sudo crontab -l > mycron
             echo "*/5 * * * * /home/ethos/rigcontrol.sh" >> mycron
+            echo ""  >> mycron
             sudo crontab mycron
             sudo rm mycron
 
