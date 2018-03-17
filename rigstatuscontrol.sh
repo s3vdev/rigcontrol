@@ -63,7 +63,8 @@ NC="$(tput sgr0)" # No Color
 
 if ps -ef | grep -v grep | grep rigcontrol.sh  >> /dev/null;
 then
-        echo "${GREEN}It's running...${NC}";
+        pid="$(pgrep -f rigcontrol | xargs)";
+        echo "${GREEN}It's running under PID ${pid}...${NC}";
         exit 0
 else
         echo "${RED}Rigcontrol was not running...${NC} ${GREEN}Restarted.${NC}";

@@ -236,67 +236,63 @@ apiWatch () {
 
                 ##
                 # Get all infos about rig
-                if [[ $1 = "/info" && $2 = "${worker}" || $1 = "/info" && $2 = "${RIGHOSTNAME}" ]];
+                if [[ $1 = "/info" && $2 = "${worker}" || $1 = "/info" && $2 = "${RIGHOSTNAME}" ]]
                 then
-                    notify "*Rig ${worker} (${RIGHOSTNAME}) info:*"$'\n'"IP: ${ip}"$'\n'"Uptime: ${human_uptime}"$'\n'"Miner: ${miner} (${miner_version})"$'\n'"Stratum: ${stratum_check}"$'\n'"GPU's: ${gpus}"$'\n'"Driver: ${driver}"$'\n'"Hashrate: ${hashRate} hash"$'\n'"Hash per GPU: ${miner_hashes}"$'\n'"Watts: ${watts_raw}"$'\n'"FAN RPM: ${fanrpm}"$'\n'"Statspanel: ${STATSPANEL}";
-                fi
+                   notify "*Rig ${worker} (${RIGHOSTNAME}) info:*"$'\n'"IP: ${ip}"$'\n'"Uptime: ${human_uptime}"$'\n'"Miner: ${miner} (${miner_version})"$'\n'"Stratum: ${stratum_check}"$'\n'"GPU's: ${gpus}"$'\n'"Driver: ${driver}"$'\n'"Hashrate: ${hashRate} hash"$'\n'"Hash per GPU: ${miner_hashes}"$'\n'"Watts: ${watts_raw}"$'\n'"FAN RPM: ${fanrpm}"$'\n'"Statspanel: ${STATSPANEL}";
 
                 ##
                 # Restart miner
-                if [[ $1 = "/minestop" && $2 = "${worker}" || $1 = "/minestop" && $2 = "${RIGHOSTNAME}" ]];
+                elif [[ $1 = "/minestop" && $2 = "${worker}" || $1 = "/minestop" && $2 = "${RIGHOSTNAME}" ]]
                 then
-                    /opt/ethos/bin/minestop
-                    notify "Miner on Rig ${worker} (${RIGHOSTNAME}) has restarted now.";
-                fi
+                   /opt/ethos/bin/minestop
+                   notify "Miner on Rig ${worker} (${RIGHOSTNAME}) has restarted now.";
 
                 ##
                 # Reboot rig
-                if [[ $1 = "/reboot" && $2 = "${worker}" || $1 = "/reboot" && $2 = "${RIGHOSTNAME}" ]];
+                elif [[ $1 = "/reboot" && $2 = "${worker}" || $1 = "/reboot" && $2 = "${RIGHOSTNAME}" ]]
                 then
-                    sudo /opt/ethos/bin/r
-                    notify "Rig ${worker} (${RIGHOSTNAME}) is going down for reboot NOW!";
-                fi
+                   sudo /opt/ethos/bin/r
+                   notify "Rig ${worker} (${RIGHOSTNAME}) is going down for reboot NOW!";
 
                 ##
                 # Update all miners on rig
-                if [[ $1 = "/updateminers" && $2 = "${worker}" || $1 = "/updateminers" && $2 = "${RIGHOSTNAME}" ]];
+                elif [[ $1 = "/updateminers" && $2 = "${worker}" || $1 = "/updateminers" && $2 = "${RIGHOSTNAME}" ]]
                 then
-                    notify "Rig ${worker} (${RIGHOSTNAME}) is updateing all miner programs to latest versions.";
-                    sudo update-miners
-                    notify "Rig ${worker} (${RIGHOSTNAME}) miner update completed.";
-                fi
+                   notify "Rig ${worker} (${RIGHOSTNAME}) is updateing all miner programs to latest versions.";
+                   sudo update-miners
+                   notify "Rig ${worker} (${RIGHOSTNAME}) miner update completed.";
 
                 ##
                 # Restart proxy
-                if [[ $1 = "/restartproxy" && $2 = "${worker}" || $1 = "/restartproxy" && $2 = "${RIGHOSTNAME}" ]];
+                elif [[ $1 = "/restartproxy" && $2 = "${worker}" || $1 = "/restartproxy" && $2 = "${RIGHOSTNAME}" ]]
                 then
-                    restart-proxy
-                    notify "Rig ${worker} (${RIGHOSTNAME}) local stratum proxy restarted.";
-                fi
+                   restart-proxy
+                   notify "Rig ${worker} (${RIGHOSTNAME}) local stratum proxy restarted.";
 
                 ##
-                # Apple remote changes
-                if [[ $1 = "/apply_remote_changes" && $2 = "${worker}" || $1 = "/apply_remote_changes" && $2 = "${RIGHOSTNAME}" ]];
+                # Apply remote changes
+                elif [[ $1 = "/apply_remote_changes" && $2 = "${worker}" || $1 = "/apply_remote_changes" && $2 = "${RIGHOSTNAME}" ]]
                 then
-                    /opt/ethos/bin/putconf && /opt/ethos/bin/minestop && ethos-overclock
-                    notify "Rig ${worker} (${RIGHOSTNAME}) remote and overclocking settings have been saved.";
-                fi
+                   /opt/ethos/bin/putconf && /opt/ethos/bin/minestop && ethos-overclock
+                   notify "Rig ${worker} (${RIGHOSTNAME}) remote and overclocking settings have been saved.";
 
                 ##
                 # Reset thermal-related throttling back to normal
-                if [[ $1 = "/clearthermals" && $2 = "${worker}" || $1 = "/clearthermals" && $2 = "${RIGHOSTNAME}" ]];
+                elif [[ $1 = "/clearthermals" && $2 = "${worker}" || $1 = "/clearthermals" && $2 = "${RIGHOSTNAME}" ]]
                 then
                     /opt/ethos/bin/clear-thermals
                     notify "Rig ${worker} (${RIGHOSTNAME}) cleared all overheats and throttles and re-applied overclocks, set autoreboot counter back to 0.";
-                fi
 
                 ##
                 # Insert new remote configuration to remote.conf file
-                if [[ $1 = "/putconf" && $2 = "${worker}" || $1 = "/putconf" && $2 = "${RIGHOSTNAME}" ]];
+                elif [[ $1 = "/putconf" && $2 = "${worker}" || $1 = "/putconf" && $2 = "${RIGHOSTNAME}" ]]
                 then
                     echo $3 >> remote.conf
                     /opt/ethos/bin/putconf && /opt/ethos/bin/minestop && ethos-overclock
                     notify "Rig ${worker} (${RIGHOSTNAME}) new remote configuration $3 saved. Miner restarted successfully.";
+
+                #else
+                   # Nothing to do
                 fi
 
 
