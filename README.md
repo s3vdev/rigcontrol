@@ -10,9 +10,22 @@ Video: https://vimeo.com/260455169
 ##
 
 ##
-#### rigcontrol via Telegram Messenger ####
+#### rigcontrol via Telegram Messenger - auto install ####
 
-Define a cronjob for rigstatus.sh, eg. every 5 minutes
+Simple download only install.sh to your folder /home/ethos and set chmod via:
+
+``` chmod a+x /home/ethos/install.sh ```
+
+Run install.sh via the following command:
+
+``` bash install.sh ```
+
+Finish :-)
+
+##
+#### rigcontrol via Telegram Messenger - manual install ####
+
+Define a cronjob for rigstatuscontrol.sh, eg. every 5 minutes
 
 ``` sudo crontab -e ```
 
