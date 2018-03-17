@@ -123,7 +123,11 @@ apiWatch () {
 
     ##
     # Get update_id_next from timer function...
-    update_id_next="$($1)";
+    if [ -n "$1" ];
+    then
+        update_id_next="$($1)";
+    fi
+
 
     ##
     # Info: First get CURRENT update_id eg. => 521357970 on NEXT api call use => 521357971 on next => 521357972...
@@ -289,9 +293,10 @@ apiWatch () {
 
 
                 ##
-                # Run timer function
+                # Run timer function and exit here
                 update_id_next=$(( $update_id + 1 ));
                 timer "${update_id_next}";
+                exit 1
 
             fi
 
