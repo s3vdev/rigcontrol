@@ -132,11 +132,13 @@ select yn in "Yes" "No"; do
 
             sleep 0.3
 
-            # Creating cronjob...
-            # sudo crontab -e
-            # */5 * * * * /home/ethos/rigcontrol.sh
-            # */5 * * * * /home/ethos/rigstatuscontrol.sh
+            echo "Creating cronjob for rigstatuscontrol.sh";
+            sudo crontab -l > mycron
+            echo "*/5 * * * * /home/ethos/rigcontrol.sh" >> mycron
+            sudo crontab mycron
+            sudo rm mycron
 
+            sleep 0.3
 
             echo "All files successfully downloaded!";
 
