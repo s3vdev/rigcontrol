@@ -43,7 +43,10 @@
 # /info <rigname> OR <workername>
 # /minestop <rigname> OR <workername>
 # /reboot <rigname> OR <workername>
-#
+# /update-miners <rigname> OR <workername>
+# /restart-proxy <rigname> OR <workername>
+# /apply-remote-changes <rigname> OR <workername>
+# /clear-thermals <rigname> OR <workername>
 #
 # Finished!
 #
@@ -122,7 +125,7 @@ apiWatch () {
     #timestamp=$(date +%s);
 
     # Get current timestamp + 5 seconds
-    timestamp_5=$(date --date='-5 seconds' +%s);
+    timestamp_5=$(date --date='-7 seconds' +%s);
 
     # Get always the last message (array -1)
     #msg= msg 14 "text";
@@ -180,14 +183,14 @@ apiWatch () {
             # $1 eg. /uptime -- $2 eg. rig2;
 
             # Get all infos about rig
-            if [[ $1 = "/info" && $2 = "${worker}" || $2 = "${RIGHOSTNAME}" ]];
+            if [[ $1 = "/info" && $2 = "${worker}" || $1 = "/info" && $2 = "${RIGHOSTNAME}" ]];
             then
                 notify "*Rig ${worker} (${RIGHOSTNAME}) info:*"$'\n'"IP: ${ip}"$'\n'"Uptime: ${human_uptime}"$'\n'"Miner: ${miner} (${miner_version})"$'\n'"Stratum: ${stratum_check}"$'\n'"GPU's: ${gpus}"$'\n'"Driver: ${driver}"$'\n'"Hashrate: ${hashRate} hash"$'\n'"Hash per GPU: ${miner_hashes}"$'\n'"Watts: ${watts_raw}"$'\n'"FAN RPM: ${fanrpm}"$'\n'"Statspanel: ${STATSPANEL}";
                 #exit 1
             fi
 
             # Restart miner
-            if [[ $1 = "/minestop" && $2 = "${worker}" || $2 = "${RIGHOSTNAME}" ]];
+            if [[ $1 = "/minestop" && $2 = "${worker}" || $1 = "/minestop" && $2 = "${RIGHOSTNAME}" ]];
             then
                 /opt/ethos/bin/minestop
                 notify "Miner on Rig ${worker} (${RIGHOSTNAME}) has restarted now.";
@@ -195,17 +198,51 @@ apiWatch () {
             fi
 
             # Reboot rig
-            if [[ $1 = "/reboot" && $2 = "${worker}" || $2 = "${RIGHOSTNAME}" ]];
+            if [[ $1 = "/reboot" && $2 = "${worker}" || $1 = "/reboot" && $2 = "${RIGHOSTNAME}" ]];
             then
                 sudo /opt/ethos/bin/r
                 notify "Rig ${worker} (${RIGHOSTNAME}) is going down for reboot NOW!";
                 #exit 1
             fi
-         fi
 
+            # Update all miners on rig
+            if [[ $1 = "/update-miners" && $2 = "${worker}" || $1 = "/update-miners" && $2 = "${RIGHOSTNAME}" ]];
+            then
+                sudo update-miners
+                notify "Rig ${worker} (${RIGHOSTNAME}) is updateing all miner programs to latest versions.";
+                #exit 1
+            fi
+
+            # Restart proxy
+            if [[ $1 = "/restart-proxy" && $2 = "${worker}" || $1 = "/restart-proxy" && $2 = "${RIGHOSTNAME}" ]];
+            then
+                restart-proxy
+                notify "Rig ${worker} (${RIGHOSTNAME}) local stratum proxy restarted.";
+                #exit 1
+            fi
+
+            # Apple remote changes
+            if [[ $1 = "/apply-remote-changes" && $2 = "${worker}" || $1 = "/apply-remote-changes" && $2 = "${RIGHOSTNAME}" ]];
+            then
+                /opt/ethos/bin/putconf && /opt/ethos/bin/minestop && ethos-overclock
+                notify "Rig ${worker} (${RIGHOSTNAME}) remote and overclocking settings have been saved.";
+                #exit 1
+            fi
+
+            # Reset thermal-related throttling back to normal
+            if [[ $1 = "/clear-thermals" && $2 = "${worker}" || $1 = "/clear-thermals" && $2 = "${RIGHOSTNAME}" ]];
+            then
+                /opt/ethos/bin/clear-thermals
+                notify "Rig ${worker} (${RIGHOSTNAME}) cleared all overheats and throttles and re-applied overclocks, set autoreboot counter back to 0.";
+                #exit 1
+            fi
+
+
+
+         fi
     else
         echo "Status: ${RED}FAIL${NC}";
-        notify "API on Rig ${worker} (${RIGHOSTNAME}) FAILD!";
+        notify "API on Rig ${worker} (${RIGHOSTNAME}) FAILED!";
         #exit 1
     fi
 

@@ -38,13 +38,6 @@
 #
 # Edit your vars in rigcheck.config
 #
-#
-# Telegram commands
-# /info <rigname> OR <workername>
-# /minestop <rigname> OR <workername>
-# /reboot <rigname> OR <workername>
-#
-#
 # Finished!
 #
 # Testing (try bash, calling sh make bash switch to posix mode and gives you some error)
