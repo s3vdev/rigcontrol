@@ -59,7 +59,7 @@
 
 # If your hashrate is less than MIN_HASH, your miner will restart automatically
 MIN_HASH="";
-
+ 
 
 # IF your wattage is less than LOW_WATT, your miner will restart automatically
 LOW_WATT="";

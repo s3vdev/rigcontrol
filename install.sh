@@ -18,12 +18,12 @@ select yn in "Yes" "No"; do
 
         ##
         # Setup MIN_HASH
-        echo "Please enter your <MIN_HASH> e.g. 100 (100 hash) for ethOS mining rig, followed by [ENTER]:"
+        echo "Please enter your <MIN_HASH> e.g. 100 (100 hash) for this ethOS mining rig, followed by [ENTER]:"
         read min_hash
 
         ##
         # Setup LOW_WATT
-        echo "Please enter your <LOW_WATT> e.g. 80 (80 Watts) for ethOS mining rig, followed by [ENTER]:"
+        echo "Please enter your <LOW_WATT> e.g. 80 (80 Watts) for this ethOS mining rig, followed by [ENTER]:"
         read low_watt
 
         echo "";
@@ -213,26 +213,23 @@ MIN_HASH="$min_hash";
 LOW_WATT="$low_watt";
 
 # Telegram Gateway Service
-TOKEN=""$token";
-CHAT_ID=""$chat_id";
+TOKEN="$token";
+CHAT_ID="$chat_id";
 
 
 # Pushover.net Gateway Service
-APP_TOKEN=""$app_token";
-USER_KEY=""$user_key";
+APP_TOKEN="$app_token";
+USER_KEY="$user_key";
 
 # Cron has diff env, some paths aren't found. adjust
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/ethos/bin:/opt/ethos/sbin
-
 ### END EDIT ###
 EOT
 
-
-
             sleep 0.3
 
-            echo "Setting up chmod 755 to rigcheck_status.sh ...";
-            chmod a+x /home/ethos/rigcheck_status.sh
+            echo "Setting up chmod 755 to rigcheck_config.sh ...";
+            chmod a+x /home/ethos/rigcheck_config.sh
 
             sleep 0.3
 
