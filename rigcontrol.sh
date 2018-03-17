@@ -47,6 +47,7 @@
 # /restartproxy <rigname> OR <workername>
 # /apply_remote_changes <rigname> OR <workername>
 # /clearthermals <rigname> OR <workername>
+# /putconf <rigname> OR <workername> <URL>
 #
 # Finished!
 #
@@ -225,10 +226,8 @@ apiWatch () {
 
                 ##
                 # Split commands
-                split_msg=$(echo $msg | awk -F" " '{print $1,$2}');
+                split_msg=$(echo $msg | awk -F" " '{print $1,$2,$3}');
                 set -- $split_msg;
-                # $1 eg. /uptime -- $2 eg. rig2;
-
 
 
                 ##
@@ -289,6 +288,15 @@ apiWatch () {
                 then
                     /opt/ethos/bin/clear-thermals
                     notify "Rig ${worker} (${RIGHOSTNAME}) cleared all overheats and throttles and re-applied overclocks, set autoreboot counter back to 0.";
+                fi
+
+                ##
+                # Insert new remote configuration to remote.conf file
+                if [[ $1 = "/putconf" && $2 = "${worker}" || $1 = "/putconf" && $2 = "${RIGHOSTNAME}" ]];
+                then
+                    echo $3 >> remote.conf
+                    /opt/ethos/bin/putconf && /opt/ethos/bin/minestop && ethos-overclock
+                    notify "Rig ${worker} (${RIGHOSTNAME}) new remote configuration $3 saved. Miner restarted successfully.";
                 fi
 
 

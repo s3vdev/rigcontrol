@@ -31,6 +31,18 @@ Telegram commands:
 
 ``` /reboot <rigname> OR <workername> ```
 
+``` /updateminers <rigname> OR <workername> ```
+
+``` /restartproxy <rigname> OR <workername> ```
+
+``` /apply_remote_changes <rigname> OR <workername> ```
+
+``` /clearthermals <rigname> OR <workername> ```
+
+``` /putconf <rigname> OR <workername> <URL> ```
+
+
+
 Testing (try bash, calling sh make bash switch to posix mode and gives you some error)
 
 To check if rigcontrol.sh is running, just type:
