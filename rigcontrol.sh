@@ -80,12 +80,13 @@ telegramURL="https://api.telegram.org/bot$TOKEN/getUpdates";
 
 
 status () {
-   result="$(curl -s ${telegramURL} | python -c 'import sys, json; print json.load(sys.stdin)["'${1}'"]')";
+   result="$(curl -s ${telegramURL} | python -c 'import sys, json; print json.load(sys.stdin)["'${1}'"]')" >> /dev/null;
    echo ${result}
 }
 
 msg () {
-   result="$(curl -s ${telegramURL} | python -c 'import sys, json; print json.load(sys.stdin)["result"]['${1}']["message"]["'${2}'"]')";
+  # result="$(curl -s ${telegramURL}?offset=${1} | python -c 'import sys, json; print json.load(sys.stdin)["result"]['${2}']["'${3}'"]["'${4}'"]')";
+   result="$(curl -s ${telegramURL}${1} | python -c 'import sys, json; print json.load(sys.stdin)'${2}' ')" >> /dev/null;
    echo ${result}
 }
 
@@ -121,134 +122,164 @@ timer () {
 
 apiWatch () {
 
-    # Get current timestamp
+    # Get current local timestamp
     #timestamp=$(date +%s);
 
-    # Get current timestamp + 5 seconds
+    # Get current local timestamp + 5 seconds
     timestamp_5=$(date --date='-7 seconds' +%s);
 
-    # Get always the last message (array -1)
-    #msg= msg 14 "text";
-    msg="$(msg -1 "text")";
-    telegram_date="$( msg -1 "date")";
-    #echo "MSG: ${msg} Telegram: $telegram_date Timestamp: ${timestamp} Timestamp +5: ${timestamp_5}";
-    #exit 1
+   # update_id is limited 0 - 100 (so get always the last id - https://stackoverflow.com/questions/34296374/telegram-bot-api-limit-of-incoming-updates#34299503)
+   # update_id="$( msg "100" "-1" "update_id" )";
 
-
-    # Check API Status
-    if [ "$(status "ok")" = "True" ];
+    # Info: First get CURRENT update_id eg. => 521357970 on NEXT api call use => 521357971 on next => 521357972...
+    if [ -z "${update_id_next}" ];
     then
-
-        if [ "${timestamp_5}" -lt "${telegram_date}" ];
-        then
-
-            # Get Hostname
-            RIGHOSTNAME="$(cat /etc/hostname)";
-            # Get worker name for Pushover service
-            worker="$(/opt/ethos/sbin/ethos-readconf worker)";
-            # Get human uptime
-            human_uptime="$(/opt/ethos/bin/human_uptime)";
-            # Get current mining client,
-            miner="$(/opt/ethos/sbin/ethos-readconf miner)";
-            # Get current mining client,
-            miner="$(/opt/ethos/sbin/ethos-readconf miner)";
-            # Miner version
-            miner_version="$(cat /var/run/ethos/miner.versions | grep ${miner} | cut -d" " -f2 | head -1)";
-            # Stratum status
-            stratum_check="$(/opt/ethos/sbin/ethos-readconf stratumenabled)";
-            # Miner Hashes
-            miner_hashes="$(tail -10 /var/run/ethos/miner_hashes.file | sort -V | tail -1)";
-            # Get current total hashrate (as integer)
-            hashRate="$(tail -10 /var/run/ethos/miner_hashes.file | sort -V | tail -1 | tr ' ' '\n' | awk '{sum +=$1} END {print sum}')";
-            # Get all availible GPUs
-            gpus="$(cat /var/run/ethos/gpucount.file)";
-            # Get driver
-            driver="$(/opt/ethos/sbin/ethos-readconf driver)";
-            # Add watts check (best way to detect crash for Nvidia cards) (Thanks to Min Min)
-            watts_raw="$(/opt/ethos/bin/stats | grep watts | cut -d' ' -f2- | sed -e 's/^[ \t]*//')";
-            # Get stats panel
-            STATSPANEL="$(cat /var/run/ethos/url.file)";
-            # Get current fan speeds
-            fanrpm="$(/opt/ethos/sbin/ethos-readdata fanrpm | xargs | tr -s ' ')";
-            #Get real lokal IP
-            ip="$(ifconfig | grep -A 1 'eth0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)";
-
-
-
-            echo "Status: ${GREEN}Ok${NC} ${msg}";
-
-            # Split commands
-            split_msg=$(echo $msg | awk -F" " '{print $1,$2}');
-            set -- $split_msg;
-            # $1 eg. /uptime -- $2 eg. rig2;
-
-            # Get all infos about rig
-            if [[ $1 = "/info" && $2 = "${worker}" || $1 = "/info" && $2 = "${RIGHOSTNAME}" ]];
-            then
-                notify "*Rig ${worker} (${RIGHOSTNAME}) info:*"$'\n'"IP: ${ip}"$'\n'"Uptime: ${human_uptime}"$'\n'"Miner: ${miner} (${miner_version})"$'\n'"Stratum: ${stratum_check}"$'\n'"GPU's: ${gpus}"$'\n'"Driver: ${driver}"$'\n'"Hashrate: ${hashRate} hash"$'\n'"Hash per GPU: ${miner_hashes}"$'\n'"Watts: ${watts_raw}"$'\n'"FAN RPM: ${fanrpm}"$'\n'"Statspanel: ${STATSPANEL}";
-                #exit 1
-            fi
-
-            # Restart miner
-            if [[ $1 = "/minestop" && $2 = "${worker}" || $1 = "/minestop" && $2 = "${RIGHOSTNAME}" ]];
-            then
-                /opt/ethos/bin/minestop
-                notify "Miner on Rig ${worker} (${RIGHOSTNAME}) has restarted now.";
-                #exit 1
-            fi
-
-            # Reboot rig
-            if [[ $1 = "/reboot" && $2 = "${worker}" || $1 = "/reboot" && $2 = "${RIGHOSTNAME}" ]];
-            then
-                sudo /opt/ethos/bin/r
-                notify "Rig ${worker} (${RIGHOSTNAME}) is going down for reboot NOW!";
-                #exit 1
-            fi
-
-            # Update all miners on rig
-            if [[ $1 = "/updateminers" && $2 = "${worker}" || $1 = "/updateminers" && $2 = "${RIGHOSTNAME}" ]];
-            then
-                notify "Rig ${worker} (${RIGHOSTNAME}) is updateing all miner programs to latest versions.";
-                sudo update-miners
-                notify "Rig ${worker} (${RIGHOSTNAME}) miner update completed.";
-                #exit 1
-            fi
-
-            # Restart proxy
-            if [[ $1 = "/restartproxy" && $2 = "${worker}" || $1 = "/restartproxy" && $2 = "${RIGHOSTNAME}" ]];
-            then
-                restart-proxy
-                notify "Rig ${worker} (${RIGHOSTNAME}) local stratum proxy restarted.";
-                #exit 1
-            fi
-
-            # Apple remote changes
-            if [[ $1 = "/apply-remote-changes" && $2 = "${worker}" || $1 = "/apply-remote-changes" && $2 = "${RIGHOSTNAME}" ]];
-            then
-                /opt/ethos/bin/putconf && /opt/ethos/bin/minestop && ethos-overclock
-                notify "Rig ${worker} (${RIGHOSTNAME}) remote and overclocking settings have been saved.";
-                #exit 1
-            fi
-
-            # Reset thermal-related throttling back to normal
-            if [[ $1 = "/clearthermals" && $2 = "${worker}" || $1 = "/clearthermals" && $2 = "${RIGHOSTNAME}" ]];
-            then
-                /opt/ethos/bin/clear-thermals
-                notify "Rig ${worker} (${RIGHOSTNAME}) cleared all overheats and throttles and re-applied overclocks, set autoreboot counter back to 0.";
-                #exit 1
-            fi
-
-
-
-         fi
+        update_id="$( msg "?offset=100" '["result"][-1]["update_id"]' )";
     else
-        echo "Status: ${RED}FAIL${NC}";
-        notify "API on Rig ${worker} (${RIGHOSTNAME}) FAILED!";
-        #exit 1
+        update_id="$( msg "?offset=${update_id_next}" '["result"][-1]["update_id"]' )";
     fi
 
-    # Run function again
+    #update_id_next=$(( $update_id + 1 ));
+    #echo ${update_id} ${update_id_next};
+
+    echo "${update_id} - ${GREEN}Waiting 5 seconds for next user input...${NC}";
+
+    # Get update_id
+    if [ -n "${update_id}" ];
+    then
+
+        # Get always the last message (array -1)
+        #msg="$( msg "100" "-1" "message" "text" )";
+        #msg="$( msg "?offset=${update_id_next}" '["result"][-1]["message"]["text"]' )";
+        msg="$( msg "?offset=${update_id}" '["result"][-1]["message"]["text"]' )";
+
+        # Get telegram date
+        #telegram_date="$( msg "100" "-1" "message" "date" )";
+        #telegram_date="$( msg "?offset=${update_id_next}" '["result"][-1]["message"]["date"]' )";
+        telegram_date="$( msg "?offset=${update_id}" '["result"][-1]["message"]["date"]' )";
+
+
+        # Check API Status
+        if [ "$(status "ok")" = "True" ];
+        then
+
+            if [[ -n "${telegram_date}" && "${timestamp_5}" -lt "${telegram_date}" ]];
+            then
+
+                echo "Status: ${GREEN}Ok${NC} ${msg}";
+
+                # Get Hostname
+                RIGHOSTNAME="$(cat /etc/hostname)";
+                # Get worker name for Pushover service
+                worker="$(/opt/ethos/sbin/ethos-readconf worker)";
+                # Get human uptime
+                human_uptime="$(/opt/ethos/bin/human_uptime)";
+                # Get current mining client,
+                miner="$(/opt/ethos/sbin/ethos-readconf miner)";
+                # Get current mining client,
+                miner="$(/opt/ethos/sbin/ethos-readconf miner)";
+                # Miner version
+                miner_version="$(cat /var/run/ethos/miner.versions | grep ${miner} | cut -d" " -f2 | head -1)";
+                # Stratum status
+                stratum_check="$(/opt/ethos/sbin/ethos-readconf stratumenabled)";
+                # Miner Hashes
+                miner_hashes="$(tail -10 /var/run/ethos/miner_hashes.file | sort -V | tail -1)";
+                # Get current total hashrate (as integer)
+                hashRate="$(tail -10 /var/run/ethos/miner_hashes.file | sort -V | tail -1 | tr ' ' '\n' | awk '{sum +=$1} END {print sum}')";
+                # Get all availible GPUs
+                gpus="$(cat /var/run/ethos/gpucount.file)";
+                # Get driver
+                driver="$(/opt/ethos/sbin/ethos-readconf driver)";
+                # Add watts check (best way to detect crash for Nvidia cards) (Thanks to Min Min)
+                watts_raw="$(/opt/ethos/bin/stats | grep watts | cut -d' ' -f2- | sed -e 's/^[ \t]*//')";
+                # Get stats panel
+                STATSPANEL="$(cat /var/run/ethos/url.file)";
+                # Get current fan speeds
+                fanrpm="$(/opt/ethos/sbin/ethos-readdata fanrpm | xargs | tr -s ' ')";
+                #Get real lokal IP
+                ip="$(ifconfig | grep -A 1 'eth0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)";
+
+
+
+                # Split commands
+                split_msg=$(echo $msg | awk -F" " '{print $1,$2}');
+                set -- $split_msg;
+                # $1 eg. /uptime -- $2 eg. rig2;
+
+                # Get all infos about rig
+                if [[ $1 = "/info" && $2 = "${worker}" || $1 = "/info" && $2 = "${RIGHOSTNAME}" ]];
+                then
+                    notify "*Rig ${worker} (${RIGHOSTNAME}) info:*"$'\n'"IP: ${ip}"$'\n'"Uptime: ${human_uptime}"$'\n'"Miner: ${miner} (${miner_version})"$'\n'"Stratum: ${stratum_check}"$'\n'"GPU's: ${gpus}"$'\n'"Driver: ${driver}"$'\n'"Hashrate: ${hashRate} hash"$'\n'"Hash per GPU: ${miner_hashes}"$'\n'"Watts: ${watts_raw}"$'\n'"FAN RPM: ${fanrpm}"$'\n'"Statspanel: ${STATSPANEL}";
+                    #exit 1
+                fi
+
+                # Restart miner
+                if [[ $1 = "/minestop" && $2 = "${worker}" || $1 = "/minestop" && $2 = "${RIGHOSTNAME}" ]];
+                then
+                    /opt/ethos/bin/minestop
+                    notify "Miner on Rig ${worker} (${RIGHOSTNAME}) has restarted now.";
+                    #exit 1
+                fi
+
+                # Reboot rig
+                if [[ $1 = "/reboot" && $2 = "${worker}" || $1 = "/reboot" && $2 = "${RIGHOSTNAME}" ]];
+                then
+                    sudo /opt/ethos/bin/r
+                    notify "Rig ${worker} (${RIGHOSTNAME}) is going down for reboot NOW!";
+                    #exit 1
+                fi
+
+                # Update all miners on rig
+                if [[ $1 = "/updateminers" && $2 = "${worker}" || $1 = "/updateminers" && $2 = "${RIGHOSTNAME}" ]];
+                then
+                    notify "Rig ${worker} (${RIGHOSTNAME}) is updateing all miner programs to latest versions.";
+                    sudo update-miners
+                    notify "Rig ${worker} (${RIGHOSTNAME}) miner update completed.";
+                    #exit 1
+                fi
+
+                # Restart proxy
+                if [[ $1 = "/restartproxy" && $2 = "${worker}" || $1 = "/restartproxy" && $2 = "${RIGHOSTNAME}" ]];
+                then
+                    restart-proxy
+                    notify "Rig ${worker} (${RIGHOSTNAME}) local stratum proxy restarted.";
+                    #exit 1
+                fi
+
+                # Apple remote changes
+                if [[ $1 = "/apply-remote-changes" && $2 = "${worker}" || $1 = "/apply-remote-changes" && $2 = "${RIGHOSTNAME}" ]];
+                then
+                    /opt/ethos/bin/putconf && /opt/ethos/bin/minestop && ethos-overclock
+                    notify "Rig ${worker} (${RIGHOSTNAME}) remote and overclocking settings have been saved.";
+                    #exit 1
+                fi
+
+                # Reset thermal-related throttling back to normal
+                if [[ $1 = "/clearthermals" && $2 = "${worker}" || $1 = "/clearthermals" && $2 = "${RIGHOSTNAME}" ]];
+                then
+                    /opt/ethos/bin/clear-thermals
+                    notify "Rig ${worker} (${RIGHOSTNAME}) cleared all overheats and throttles and re-applied overclocks, set autoreboot counter back to 0.";
+                    #exit 1
+                fi
+            fi
+
+        else
+            echo "Status: ${RED}FAILED${NC}";
+
+            if [[ -n "${worker}" && -n "${RIGHOSTNAME}" ]];
+            then
+               notify "API on Rig ${worker} (${RIGHOSTNAME}) FAILED!";
+               #exit 1
+            fi
+        fi
+
+    else
+       echo "${RED}No update_id found! Post any text to your bot, to get a new update_id!${NC}";
+    fi
+
+    # Run timer function
     timer
 }
 
+# First run...
 apiWatch
