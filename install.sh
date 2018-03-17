@@ -17,6 +17,11 @@ select yn in "Yes" "No"; do
         Yes )
 
         ##
+        # Setup MIN_HASH
+        echo "Please enter your <MIN_HASH> e.g. 100 (100 hash) for ethOS mining rig, followed by [ENTER]:"
+        read min_hash
+
+        ##
         # Setup LOW_WATT
         echo "Please enter your <LOW_WATT> e.g. 80 (80 Watts) for ethOS mining rig, followed by [ENTER]:"
         read low_watt
@@ -201,7 +206,7 @@ cat <<EOT >> /home/ethos/rigcheck_config.sh
 ### BEGINN EDIT ###
 
 # If your hashrate is less than MIN_HASH, your miner will restart automatically
-MIN_HASH="";
+MIN_HASH="$min_hash";
 
 
 # IF your wattage is less than LOW_WATT, your miner will restart automatically

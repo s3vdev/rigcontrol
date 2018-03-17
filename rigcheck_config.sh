@@ -75,5 +75,4 @@ USER_KEY="";
 
 # Cron has diff env, some paths aren't found. adjust
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/ethos/bin:/opt/ethos/sbin
-
 ### END EDIT ###
