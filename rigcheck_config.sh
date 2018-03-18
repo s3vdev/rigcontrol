@@ -61,7 +61,7 @@
 RebootMaxRestarts="";
 
 # Min hash per GPU
-MinHashRatePerGPU="";
+MIN_HASHRATE_GPU="";
 
 # If your hashrate is less than MIN_HASH, your miner will restart automatically
 MIN_TOTAL_HASH="";

@@ -27,9 +27,9 @@ select yn in "Yes" "No"; do
         read min_total_hash
 
         ##
-        # Setup MinHashRatePerGPU
-        echo "Please enter your <MinHashRatePerGPU> per GPU e.g. 24 (24 hash), followed by [ENTER]:"
-        read min_hash_per_gpu
+        # Setup MIN_HASHRATE_GPU
+        echo "Please enter your <MIN_HASHRATE_GPU> per GPU e.g. 24 (24 hash), followed by [ENTER]:"
+        read min_hashrate_gpu
 
         ##
         # Setup LOW_WATT
@@ -222,9 +222,9 @@ cat <<EOT >> /home/ethos/rigcheck_config.sh
 RebootMaxRestarts="$reboot_max_restarts";
 
 # Min hash per GPU
-MinHashRatePerGPU="$min_hash_per_gpu";
+MIN_HASHRATE_GPU="$min_hashrate_gpu";
 
-# If your hashrate is less than MIN_HASH, your miner will restart automatically
+# If your hashrate is less than MIN_TOTAL_HASH, your miner will restart automatically
 MIN_TOTAL_HASH="$min_total_hash";
 
 # IF your wattage is less than LOW_WATT, your miner will restart automatically
