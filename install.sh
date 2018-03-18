@@ -114,12 +114,12 @@ select yn in "Yes" "No"; do
 
             # Download and chmod files
             echo "Downloading rigcontrol.sh from bitbucket...";
-            wget -N -q https://bitbucket.org/s3v3n/rigcheck/raw/${hash}/rigcontrol.sh -O /home/ethos/rigcontrol.sh
+            wget -N -q https://bitbucket.org/s3v3n/rigcontrol/raw/${hash}/rigcontrol.sh -O /home/ethos/rigcontrol.sh
 
             sleep 0.3
 
             echo "Downloading rigstatuscontrol.sh from bitbucket...";
-            wget -N -q https://bitbucket.org/s3v3n/rigcheck/raw/${hash}/rigstatuscontrol.sh -O /home/ethos/rigstatuscontrol.sh
+            wget -N -q https://bitbucket.org/s3v3n/rigcontrol/raw/${hash}/rigstatuscontrol.sh -O /home/ethos/rigstatuscontrol.sh
 
             # Set chmod to new file
             echo "Setting up chmod 755 to rigcontrol.sh ...";
