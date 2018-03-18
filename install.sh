@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Coloring consolen output
-RED="$(tput setaf 1)"
-GREEN="$(tput setaf 2)"
-NC="$(tput sgr0)" # No Color
+RedEcho(){ echo -e "$(tput setaf 1)$1$(tput sgr0)"; }
+GreenEcho(){ echo -e "$(tput setaf 2)$1$(tput sgr0)"; }
+YellowEcho(){ echo -e "$(tput setaf 3)$1$(tput sgr0)"; }
 
 load () {
    result="$(curl -s https://api.bitbucket.org/2.0/repositories/s3v3n/rigcheck/commits | python -c 'import sys, json; print json.load(sys.stdin)["values"][0]["'${1}'"]')";
@@ -11,7 +11,7 @@ load () {
 }
 
 echo "";
-echo "${GREEN}Do you wish to install rigcontrol to this ethOS mining rig?${NC}"
+GreenEcho "Do you wish to install rigcontrol to this ethOS mining rig?";
 select yn in "Yes" "No"; do
     case $yn in
         Yes )
@@ -27,7 +27,7 @@ select yn in "Yes" "No"; do
         read low_watt
 
         echo "";
-        echo "${GREEN}Would you like to config Telegram API to this ethOS mining rig?${NC}"
+        GreenEcho "Would you like to config Telegram API to this ethOS mining rig?";
         select yn in "Yes" "No"; do
             case $yn in
                 Yes )
@@ -54,7 +54,7 @@ select yn in "Yes" "No"; do
 
                 echo "";
                 clear
-                echo "${GREEN}[ OK ] Telegram config saved!${NC}";
+                GreenEcho "[ OK ] Telegram config saved!";
 
                 echo "";
                 break;;
@@ -65,7 +65,7 @@ select yn in "Yes" "No"; do
 
 
         echo "";
-        echo "${GREEN}Would you like to config Pushover.net API to this ethOS mining rig?${NC}"
+        GreenEcho "Would you like to config Pushover.net API to this ethOS mining rig?";
         select yn in "Yes" "No"; do
             case $yn in
                 Yes )
@@ -86,7 +86,7 @@ select yn in "Yes" "No"; do
 
                 echo "";
                 clear
-                echo "${GREEN}[ OK ] Pushover config saved!${NC}";
+                GreenEcho "[ OK ] Pushover config saved!";
 
 
 
@@ -97,7 +97,7 @@ select yn in "Yes" "No"; do
         done
 
 
-        echo "${GREEN}Checking for new commit, please wait...${NC}";
+        GreenEcho "Checking for new commit, please wait...";
 
 
         # Get hash from LAST commit
@@ -141,7 +141,7 @@ select yn in "Yes" "No"; do
 
             sleep 0.3
 
-            echo "All files successfully downloaded!";
+            GreenEcho "All files successfully downloaded!";
 
             sleep 0.3
 
@@ -237,12 +237,12 @@ EOT
             sleep 0.3
 
             echo "";
-            echo "${GREEN}Installation of rigcontrol completed! Enjoy :-)${NC}";
+            GreenEcho "Installation of rigcontrol completed! Enjoy :-)";
 
             sleep 0.3
 
             echo "";
-            echo "Starting backgroud process...${NC}";
+            GreenEcho "Starting backgroud process...";
             bash rigstatuscontrol.sh
 
         fi
