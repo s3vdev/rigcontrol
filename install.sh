@@ -157,7 +157,7 @@ cat <<EOT >> /home/ethos/rigcheck_config.sh
 #
 # Copyright 2018 Sven Mielke <web@ddl.bz>.
 #
-# Repository: https://bitbucket.org/s3v3n/rigcheck.
+# Repository: https://bitbucket.org/s3v3n/rigcontrol.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
