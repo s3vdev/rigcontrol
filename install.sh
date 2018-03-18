@@ -17,9 +17,19 @@ select yn in "Yes" "No"; do
         Yes )
 
         ##
-        # Setup MIN_HASH
-        echo "Please enter your <MIN_HASH> e.g. 100 (100 hash) for this ethOS mining rig, followed by [ENTER]:"
-        read min_hash
+        # Setup RebootMaxRestarts
+        echo "Please enter your <RebootMaxRestarts> e.g. 5 after 5 miner restarts your rig will reboot, followed by [ENTER]:"
+        read reboot_max_restarts
+
+        ##
+        # Setup MIN_TOTAL_HASH
+        echo "Please enter your <MIN_TOTAL_HASH> e.g. 100 (100 hash) for this ethOS mining rig, followed by [ENTER]:"
+        read min_total_hash
+
+        ##
+        # Setup MinHashRatePerGPU
+        echo "Please enter your <MinHashRatePerGPU> per GPU e.g. 24 (24 hash), followed by [ENTER]:"
+        read min_hash_per_gpu
 
         ##
         # Setup LOW_WATT
@@ -157,7 +167,7 @@ cat <<EOT >> /home/ethos/rigcheck_config.sh
 #
 # Copyright 2018 Sven Mielke <web@ddl.bz>.
 #
-# Repository: https://bitbucket.org/s3v3n/rigcontrol.
+# Repository: https://bitbucket.org/s3v3n/rigcheck.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -201,19 +211,25 @@ cat <<EOT >> /home/ethos/rigcheck_config.sh
 # BTC:  1Py8NMWNmtuZ5avyHFS977wZWrUWBMrfZH
 # ETH:  0x8e9e03f6895320081b15141f2dc5fabc40317e8c
 # BCH:  19sp8nSeDWN4FGrKSoGKdbeSgijGW8NBh9
-# BTCP: ﻿b1CCUUdgSXFkg2c65WZ855HmgS4jsC54VRg
+# BTCP: b1CCUUdgSXFkg2c65WZ855HmgS4jsC54VRg
 #
 # ENJOY!
 ###################################################################################
 
 ### BEGINN EDIT ###
 
-# If your hashrate is less than MIN_HASH, your miner will restart automatically
-MIN_HASH="$min_hash";
+# REBOOT IF THERE ARE MORE THEN X MINER RESTARTS WITHIN 1H
+RebootMaxRestarts="$reboot_max_restarts";
 
+# Min hash per GPU
+MinHashRatePerGPU="$min_hash_per_gpu";
+
+# If your hashrate is less than MIN_HASH, your miner will restart automatically
+MIN_TOTAL_HASH="$min_total_hash";
 
 # IF your wattage is less than LOW_WATT, your miner will restart automatically
 LOW_WATT="$low_watt";
+
 
 # Telegram Gateway Service
 TOKEN="$token";
