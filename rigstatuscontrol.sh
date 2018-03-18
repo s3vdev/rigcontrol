@@ -57,9 +57,9 @@
 ###################################################################################
 
 # Coloring consolen output
-RED="$(tput setaf 1)"
-GREEN="$(tput setaf 2)"
-NC="$(tput sgr0)" # No Color
+RedEcho(){ echo -e "$(tput setaf 1)$1$(tput sgr0)"; }
+GreenEcho(){ echo -e "$(tput setaf 2)$1$(tput sgr0)"; }
+YellowEcho(){ echo -e "$(tput setaf 3)$1$(tput sgr0)"; }
 
 if ps -ef | grep -v grep | grep rigcontrol.sh  >> /dev/null;
 then
@@ -71,10 +71,11 @@ then
         # Kill all rigcontrol pids
         # ps aux | grep -i rigcontrol | awk {'print $2'} | xargs kill -9
 
-        echo "${GREEN}It's running under PID${NC} ${pid}";
+        GreenEcho "It's running under PID ${pid}";
         exit 0
 else
-        echo "${RED}Rigcontrol was not running...${NC} ${GREEN}Restarted.${NC}";
+        RedEcho "Rigcontrol was not running...";
+        GreenEcho "Restarted.";
         screen -dmS rigcontrol bash /home/ethos/rigcontrol.sh 2>&1
         exit 0
 fi

@@ -68,9 +68,9 @@
 ###################################################################################
 
 # Coloring consolen output
-RED="$(tput setaf 1)";
-GREEN="$(tput setaf 2)";
-NC="$(tput sgr0)"; # No Color
+RedEcho(){ echo -e "$(tput setaf 1)$1$(tput sgr0)"; }
+GreenEcho(){ echo -e "$(tput setaf 2)$1$(tput sgr0)"; }
+YellowEcho(){ echo -e "$(tput setaf 3)$1$(tput sgr0)"; }
 
 # Include user config file
 . /home/ethos/rigcheck_config.sh
@@ -78,7 +78,7 @@ NC="$(tput sgr0)"; # No Color
 # Check if vars on rigcheck_config.sh was set
 if [[ -z "${MIN_HASH}" && -z "${LOW_WATT}" && -z "${TOKEN}" && -z "${CHAT_ID}" ]]
 then
-    echo "${RED}Please setup your vars in /home/ethos/rigcheck_config.sh!${NC}";
+    RedEcho "Please setup your vars in /home/ethos/rigcheck_config.sh!";
     exit 1
 fi
 
@@ -158,7 +158,7 @@ apiWatch () {
 
     ##
     # Waiting for next user input...
-    echo "${update_id} - ${GREEN}Waiting 5 seconds for next user input...${NC}";
+    GreenEcho "${update_id} - Waiting 5 seconds for next user input...";
 
     ##
     # Check if update_id is available
@@ -181,7 +181,7 @@ apiWatch () {
             if [[ -n "${telegram_date}" && "${timestamp_5}" -lt "${telegram_date}" ]];
             then
 
-                echo "Status: ${GREEN}Ok${NC} ${msg}";
+                GreenEcho "Status: Ok ${msg}";
 
                 ##
                 # Get Hostname
@@ -311,7 +311,7 @@ apiWatch () {
             fi
 
         else
-            echo "Status: ${RED}FAILED${NC}";
+            RedEcho "Status: FAILED";
 
             if [[ -n "${worker}" && -n "${RIGHOSTNAME}" ]];
             then
@@ -320,7 +320,7 @@ apiWatch () {
         fi
 
     else
-       echo "${RED}No update_id found! Post any text to your bot, to get a new update_id!${NC}";
+       RedEcho "No update_id found! Post any text to your bot, to get a new update_id!";
     fi
 
     # Run timer function
