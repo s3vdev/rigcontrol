@@ -1,4 +1,4 @@
-# rigCONTROL v.1.0.O (March 2018) based on ethOS 1.3.x by Sven Mielke #
+# rigCONTROL v.1.0.O - Telegram Bot (March 2018) based on ethOS 1.3.x by Sven Mielke #
   
 If you wish that you can control your ethOS Mining Rig than download rigstatuscontrol.sh and rigcontrol.sh to your folder /home/ethOS to manage your rig via Telegram Messenger.
 
