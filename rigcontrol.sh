@@ -76,7 +76,7 @@ YellowEcho(){ echo -e "$(tput setaf 3)$1$(tput sgr0)"; }
 . /home/ethos/rigcheck_config.sh
 
 # Check if vars on rigcheck_config.sh was set
-if [[ -z "${MIN_HASH}" && -z "${LOW_WATT}" && -z "${TOKEN}" && -z "${CHAT_ID}" ]]
+if [[ -z "${MIN_TOTAL_HASH}" && -z "${LOW_WATT}" && -z "${TOKEN}" && -z "${CHAT_ID}" ]]
 then
     RedEcho "Please setup your vars in /home/ethos/rigcheck_config.sh!";
     exit 1
@@ -95,7 +95,6 @@ msg () {
    result="$(curl -s ${telegramURL}${1} | python -c 'import sys, json; print json.load(sys.stdin)'${2}' ')" >> /dev/null;
    echo ${result}
 }
-
 
 notify () {
   if [[ -z "${TOKEN}" && -z "${APP_TOKEN}" ]];
@@ -184,6 +183,9 @@ apiWatch () {
                 GreenEcho "Status: Ok ${msg}";
 
                 ##
+                # Get stats panel
+                STATSPANEL="$(cat /var/run/ethos/url.file)";
+                ##
                 # Get Hostname
                 RIGHOSTNAME="$(cat /etc/hostname)";
                 ##
@@ -192,9 +194,6 @@ apiWatch () {
                 ##
                 # Get human uptime
                 human_uptime="$(/opt/ethos/bin/human_uptime)";
-                ##
-                # Get current mining client,
-                miner="$(/opt/ethos/sbin/ethos-readconf miner)";
                 ##
                 # Get current mining client,
                 miner="$(/opt/ethos/sbin/ethos-readconf miner)";
@@ -219,9 +218,6 @@ apiWatch () {
                 ##
                 # Add watts check (best way to detect crash for Nvidia cards) (Thanks to Min Min)
                 watts_raw="$(/opt/ethos/bin/stats | grep watts | cut -d' ' -f2- | sed -e 's/^[ \t]*//')";
-                ##
-                # Get stats panel
-                STATSPANEL="$(cat /var/run/ethos/url.file)";
                 ##
                 # Get current fan speeds
                 fanrpm="$(/opt/ethos/sbin/ethos-readdata fanrpm | xargs | tr -s ' ')";
