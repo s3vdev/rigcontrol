@@ -5,7 +5,7 @@ If you wish that you can control your ethOS Mining Rig than download rigstatusco
 See it in action: https://vimeo.com/260455169
 
 
-![Showcase](https://i.imgur.com/GESZMmV.jpg)
+![Showcase](https://i.imgur.com/RZU6VOG.jpg)
 
 ### UPDATES ###
 ##
