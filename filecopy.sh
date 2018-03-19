@@ -41,16 +41,24 @@ Index=0
 echo "Please enter the file that you would like to transfer to your ethOS rigs e.g. rigcheck.sh, followed by [ENTER]:"
 read file
 
-for sname in "${ethoservers[@]}"
-do
+##
+# Check if file exists
+if [ -f "$file" ]
+then
 
-    ##
-	# This one copies the file to your rigs
-	sshpass -p ${pass} scp ./${file} ${user}@$sname:/home/ethos/
+	for sname in "${ethoservers[@]}"
+    do
+        ##
+        # This one copies the file to your rigs
+        sshpass -p ${pass} scp ./${file} ${user}@$sname:/home/ethos/
 
-    ##
-    # This one set chmod 755 to file on your rigs
-	sshpass -p${pass} ssh ${user}@$sname chmod a+x /home/ethos/${file}
+        ##
+        # This one set chmod 755 to file on your rigs
+        sshpass -p${pass} ssh ${user}@$sname chmod a+x /home/ethos/${file}
 
-    GreenEcho "${file} successfully copied to ${sname[$Index]}"
-done
+        GreenEcho "${file} successfully copied to ${sname[$Index]}"
+    done
+
+else
+	RedEcho "$file not found."
+fi
