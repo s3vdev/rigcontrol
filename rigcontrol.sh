@@ -138,6 +138,112 @@ notify () {
 # }
 
 
+#{
+#    "allowed": 1,
+#    "pool_info": "proxywallet 0x5c29D34003eDD12B9D07b11d0332d627765dD4a7\npoolemail m8585@gmx.de\nproxypool1 eu2.ethermine.org:4444\nproxypool2 eu1.ethermine.org:4444",
+#    "pool": "eu2.ethermine.org:4444",
+#    "miner_version": "v11.5",
+#    "rx_kbps": "4.64",
+#    "tx_kbps": "1.04",
+#    "kernel": "4.8.17-ethos49",
+#    "boot_mode": "bios",
+#    "uptime": "37266",
+#    "mac": "2c4d54515d16",
+#    "hostname": "515d16",
+#    "rack_loc": "rig2",
+#    "ip": "192.168.1.85",
+#    "manu": "ASUSTeK",
+#    "mobo": "H81M-PLUS",
+#    "uuid": "8d8c1da5a3081869abe80ee0728a640a73467e40c56e15f6e8db89cc20862475",
+#    "biosversion": "2205",
+#    "lan_chip": "Realtek Semiconductor Co., Ltd. RTL8111\/8168\/8411 PCI Express Gigabit Ethernet Controller (rev 0c)",
+#    "load": "0.23",
+#    "ram": "4",
+#    "cpu_temp": "32",
+#    "cpu_name": "2 x Intel(R) Pentium(R) CPU G3260 @ 3.30GHz",
+#    "rofs": 44,
+#    "drive_name": "STORE N GO 0707279768443626",
+#    "freespace": 1.6,
+#    "temp": "71 62 65 52",
+#    "version": "1.3.0",
+#    "miner_secs": 37204,
+#    "proxy_problem": "working",
+#    "resolution": "1024 768",
+#    "send_remote": "https:\/\/configmaker.com\/my\/MelodicScarcePartialWrasse.txt",
+#    "status": "98.8 hash: miner active",
+#    "acceptance": "accepted",
+#    "driver": "nvidia",
+#    "gpus": "4",
+#    "fanrpm": "3150 3150 3150 3150",
+#    "fanpercent": "70 70 70 70",
+#    "hash": "98.85",
+#    "miner": "claymore",
+#    "miner_hashes": "24.71 24.71 24.71 24.72",
+#    "models": "01 GP106 GeForce GTX 1060 6GB 86.06.39.00.14\n02 GP106 GeForce GTX 1060 6GB 86.06.39.00.14\n03 GP106 GeForce GTX 1060 6GB 86.06.39.00.14\n05 GP106 GeForce GTX 1060 6GB 86.06.39.00.14",
+#    "bioses": "86.06.39.00.14 86.06.39.00.14 86.06.39.00.14 86.06.39.00.14",
+#    "default_core": "2025 2025 2025 2025",
+#    "default_mem": "3802 3802 3802 3802",
+#    "vramsize": "6 6 6 6",
+#    "core": "1746 1771 1797 1809",
+#    "mem": "4666 4666 4666 4666",
+#    "memstates": "1 1 1 1",
+#    "meminfo": "GPU0:01:00.0:GeForce GTX 1060 6GB:86.06.39.00.14:Unknown\nGPU1:02:00.0:GeForce GTX 1060 6GB:86.06.39.00.14:Unknown\nGPU2:03:00.0:GeForce GTX 1060 6GB:86.06.39.00.14:Unknown\nGPU3:05:00.0:GeForce GTX 1060 6GB:86.06.39.00.14:Unknown",
+#    "voltage": "0.00 0.00 0.00 0.00",
+#    "watts": "104 98 103 101",
+#    "watt_min": "60 60 60 60",
+#    "watt_max": "140 140 140 140",
+#    "powertune": "2 2 2 2"
+#}
+
+##
+# possible interesting for bot "/info" comannd - based on stats.json
+#
+#    [MINIG]
+#    "pool": "eu2.ethermine.org:4444",
+#    "proxy_problem": "working",
+#    "miner": "claymore",
+#    "miner_version": "v11.5",
+#    "miner_secs": 37204,
+#    "gpus": "4",
+#    "fanrpm": "3150 3150 3150 3150",
+#    "fanpercent": "70 70 70 70",
+#    "hash": "98.85",
+#    "miner_hashes": "24.71 24.71 24.71 24.72",
+#    "rx_kbps": "4.64",
+#    "tx_kbps": "1.04",
+
+#    [GPU]
+#    "driver": "nvidia",
+#    "default_core": "2025 2025 2025 2025",
+#    "default_mem": "3802 3802 3802 3802",
+#    "vramsize": "6 6 6 6",
+#    "core": "1746 1771 1797 1809",
+#    "mem": "4666 4666 4666 4666",
+#    "voltage": "0.00 0.00 0.00 0.00",
+#    "watts": "104 98 103 101",
+#    "watt_min": "60 60 60 60",
+#    "watt_max": "140 140 140 140",
+#    "powertune": "2 2 2 2"
+
+#    [SYSTEM]
+#    "version": "1.3.0",
+#    "uptime": "37266",
+#    "hostname": "515d16",
+#    "rack_loc": "rig2",
+#    "ip": "192.168.1.85",
+#    "manu": "ASUSTeK",
+#    "mobo": "H81M-PLUS",
+#    "biosversion": "2205",
+#    "load": "0.23",
+#    "ram": "4",
+#    "cpu_temp": "32",
+
+#    [STORAGE]
+#    "drive_name": "STORE N GO 0707279768443626",
+#    "freespace": 1.6,
+
+
+
 timer () {
     while sleep 5; do apiWatch "$1"; done
 }
