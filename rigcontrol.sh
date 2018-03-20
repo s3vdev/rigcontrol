@@ -242,6 +242,21 @@ notify () {
 #    "drive_name": "STORE N GO 0707279768443626",
 #    "freespace": 1.6,
 
+##
+# NOW
+#
+# *Rig rig1-aba (487f84) info:*
+# IP: 192.168.1.41
+# Uptime: 19 hours, 15 minutes
+# Miner: claymore (v11.0)
+# Stratum: enabled
+# GPU's: 6
+# Driver: nvidia
+# Hashrate: 187.02 hash
+# Hash per GPU: 31.16 31.19 31.12 31.20 31.17 31.18
+# Watts: 114 116 114 113 104 101
+# FAN RPM: 3600 3600 3600 3600 3600 3600
+# Statspanel: http://*.ethosdistro.com
 
 
 timer () {
