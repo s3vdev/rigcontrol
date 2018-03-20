@@ -6,7 +6,7 @@
 #
 # Copyright 2018 Sven Mielke <web@ddl.bz>.
 #
-# Repository: https://bitbucket.org/s3v3n/rigcheck - v1.0.0.
+# Repository: https://bitbucket.org/s3v3n/rigcontrol - v1.0.0.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -119,6 +119,23 @@ notify () {
             https://api.pushover.net/1/messages.json >> /dev/null
   fi
 }
+
+
+# ##
+# # stats.josn ethOS ver. 1.3.x
+# StatsJson="/var/run/ethos/stats.json"
+#
+# ### EXIT IF STATS.JSON IS MISSING
+# if [[ ! -f "$StatsJson" ]]; then
+# 	echo "$(date "+%d.%m.%Y %T") EXIT: stats.json not available yet.(make sure ethosdistro is ver: 1.3.0+)"
+# 	notify "ERROR: /var/run/ethos/stats.json not available yet.(make sure ethOS is ver: 1.3.0+. Run sudo ethos-update in your terminal.";
+# 	exit 1
+# fi
+#
+# stats () {
+#    result="$(cat /var/run/ethos/stats.json | python -c 'import sys, json; print json.load(sys.stdin)["'${1}'"]')";
+#    echo ${result}
+# }
 
 
 timer () {
