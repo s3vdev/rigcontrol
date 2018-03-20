@@ -196,9 +196,9 @@ notify () {
 #}
 
 ##
-# possible interesting for bot "/info" comannd - based on stats.json
+# Possible interesting for bot "/info" comannd - based on stats.json
 #
-#    [MINIG]
+#    [MINING]
 #    "pool": "eu2.ethermine.org:4444",
 #    "proxy_problem": "working",
 #    "miner": "claymore",
@@ -226,17 +226,17 @@ notify () {
 #    "powertune": "2 2 2 2"
 
 #    [SYSTEM]
-#    "version": "1.3.0",
-#    "uptime": "37266",
-#    "hostname": "515d16",
-#    "rack_loc": "rig2",
-#    "ip": "192.168.1.85",
 #    "manu": "ASUSTeK",
 #    "mobo": "H81M-PLUS",
 #    "biosversion": "2205",
 #    "load": "0.23",
 #    "ram": "4",
 #    "cpu_temp": "32",
+#    "version": "1.3.0",
+#    "uptime": "37266",
+#    "hostname": "515d16",
+#    "rack_loc": "rig2",
+#    "ip": "192.168.1.85",
 
 #    [STORAGE]
 #    "drive_name": "STORE N GO 0707279768443626",
@@ -357,10 +357,10 @@ apiWatch () {
                 # Add watts check (best way to detect crash for Nvidia cards) (Thanks to Min Min)
                 watts_raw="$(/opt/ethos/bin/stats | grep watts | cut -d' ' -f2- | sed -e 's/^[ \t]*//')";
                 ##
-                # Get current fan speeds
+                # Get current fan rpms
                 fanrpm="$(/opt/ethos/sbin/ethos-readdata fanrpm | xargs | tr -s ' ')";
                 ##
-                # Get real lokal IP
+                # Get real local IP
                 ip="$(ifconfig | grep -A 1 'eth0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)";
 
 
