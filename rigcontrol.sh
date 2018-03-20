@@ -140,7 +140,7 @@ notify () {
 
 #{
 #    "allowed": 1,
-#    "pool_info": "proxywallet 0x5c29D34003eDD12B9D07b11d0332d627765dD4a7\npoolemail m8585@gmx.de\nproxypool1 eu2.ethermine.org:4444\nproxypool2 eu1.ethermine.org:4444",
+#    "pool_info": "proxywallet 0x5c29D34003eDD12B9D07b11d0332d627765dD4a7\npoolemail **@gmx.*\nproxypool1 eu2.ethermine.org:4444\nproxypool2 eu1.ethermine.org:4444",
 #    "pool": "eu2.ethermine.org:4444",
 #    "miner_version": "v11.5",
 #    "rx_kbps": "4.64",
@@ -169,7 +169,7 @@ notify () {
 #    "miner_secs": 37204,
 #    "proxy_problem": "working",
 #    "resolution": "1024 768",
-#    "send_remote": "https:\/\/configmaker.com\/my\/MelodicScarcePartialWrasse.txt",
+#    "send_remote": "https:\/\/configmaker.com\/my\/*.txt",
 #    "status": "98.8 hash: miner active",
 #    "acceptance": "accepted",
 #    "driver": "nvidia",
