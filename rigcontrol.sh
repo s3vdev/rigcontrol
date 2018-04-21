@@ -438,7 +438,7 @@ apiWatch () {
 
                 ##
                 # Run timer function and exit here
-                update_id_next=$(( $update_id + 1 ));
+                update_id_next=$( $update_id + 1 );
                 timer "${update_id_next}";
                 exit 1
 
