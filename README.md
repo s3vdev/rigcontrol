@@ -9,20 +9,24 @@ See it in action: https://vimeo.com/260455169
 
 ### UPDATES ###
 ##
-
+2018-05-15 - Bugfixes with right chmod (set now automatically with 775)
 
 
 ##
 ### Install rigcontrol.sh to ethos ###
-Install rigcontrol in two ways:
 
-+ Automatically via *install.sh* script or
-+ Manually
+Setup via GIT
+----
+Clone the repository to your ethos home directory `/home/ethos`.
+```bash
+$ git clone https://s3v3n@bitbucket.org/s3v3n/rigcheck.git
+```
 
 Connect to you mining rig (via Filezilla SFTP or via SSH). 
 User: ethos, Pass: live
 
-#### via Filezilla: ####
+Setup via Filezilla
+----
 1. Navigate to /home/ethos
 2. Upload rigcontrol.sh AND rigstatuscontrol.sh AND rigcheck_config.sh to that directory
 3. Change chmod to 755
@@ -32,7 +36,8 @@ User: ethos, Pass: live
 7. Edit your vars in rigcheck_config.sh
 8. Finished!
 
-#### via SSH: ####
+Setup via SSH
+----
 1. nano rigcontrol.sh
 2. Copy & paste the complete script from rigcontrol.sh
 3. CMD + X (mac) or STRG + X (Win) to save and close
