@@ -72,6 +72,10 @@ RedEcho(){ echo -e "$(tput setaf 1)$1$(tput sgr0)"; }
 GreenEcho(){ echo -e "$(tput setaf 2)$1$(tput sgr0)"; }
 YellowEcho(){ echo -e "$(tput setaf 3)$1$(tput sgr0)"; }
 
+##
+# Set right chmod
+chmod 775 /home/ethos/rigcontrol.sh
+
 # Include user config file
 . /home/ethos/rigcheck_config.sh
 
