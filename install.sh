@@ -5,6 +5,11 @@ RedEcho(){ echo -e "$(tput setaf 1)$1$(tput sgr0)"; }
 GreenEcho(){ echo -e "$(tput setaf 2)$1$(tput sgr0)"; }
 YellowEcho(){ echo -e "$(tput setaf 3)$1$(tput sgr0)"; }
 
+##
+# Set right chmod
+chmod 775 /home/ethos/install.sh
+
+
 load () {
    result="$(curl -s https://api.bitbucket.org/2.0/repositories/s3v3n/rigcheck/commits | python -c 'import sys, json; print json.load(sys.stdin)["values"][0]["'${1}'"]')";
    echo ${result}

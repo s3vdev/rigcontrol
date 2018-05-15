@@ -1,6 +1,10 @@
 #!/bin/bash
 
 ##
+# Set right chmod
+chmod 775 /home/ethos/filecopy.sh
+
+##
 # Sven Mielke (march 2018) http://bitbucket.org/s3v3n/rigcheck
 #
 # Select your file, that you would like to transfer to all your mining rigs.
